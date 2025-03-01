@@ -15,18 +15,18 @@ app.get("/cpu", (req, res) => {
   return res.json({ message: "cpu worker" });
 });
 
+
+app.post("/webhook",async(req,res)=>{
+  const {data} = await req.body;
+  console.log(data);
+  return res.status(200).json({message:"Done"})
+
+})
+
 app.get("/os", (req, res) => {
   return res.json({ message: os.platform() });
 });
 
-if (cluster.isPrimary) {
-  for (let index = 0; index < os.cpus().length; index++) {
-    cluster.fork();
-  }
-} else {
-
-
-  app.listen(3000,()=>{
-    console.log('server started')
-  });
-}
+app.listen(3000, () => {
+  console.log("server started");
+});
